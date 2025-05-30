@@ -1,74 +1,74 @@
-Câu hỏi số 1 :  Kim loại nào sau đây tác dụng với nước ở nhiệt độ thường?
-A. Fe
-B. Zn
-C. K
-D. Cu
+Câu hỏi số 1 :  Hai chất đồng phân của nhau là
+A. glucozơ và mantozơ
+B. fructozơ và glucozơ
+C. fructozơ và mantozơ
+D. saccarozơ và glucozơ
 
-Câu hỏi số 2 :  Amino axit là hợp chất hữu cơ trong phân tử
-A. chứa nhóm cacboxyl và nhóm amino
-B. chỉ chứa nhóm amino
-C. chỉ chứa nhóm cacboxyl
-D. chỉ chứa nitơ hoặc cacbon
+Câu hỏi số 2 :  Phản ứng nào sau đây là phản ứng oxi hóa - khử?
+A. CH3COOH + C2H5OH → CH3COOC2H5 + H2O
+B. NaOH + HCl → NaCl + H2O
+C. Zn + 2HCl → ZnCl2 + H2
+D. CaCO3 → CaO + CO2
 
-Câu hỏi số 3 :  Chất rắn không màu, dễ tan trong nước, kết tinh ở điều kiện thường là
-A. C6H5NH2
-B. C2H5OH
-C. H2NCH2COOH
-D. CH3NH2
+Câu hỏi số 3 :  Chất nào sau đây là hợp chất hữu cơ?
+A. CO2
+B. H2CO3
+C. CH3OH
+D. NaHCO3
 
-Câu hỏi số 4 :  Kim loại nào sau đây khi tác dụng với dung dịch HCl tạo ra muối có ion kim loại hóa trị II?
-A. Al
-B. Fe
-C. Cu
-D. Ag
+Câu hỏi số 4 :  Kim loại tác dụng được với dung dịch HCl, HNO3 loãng, H2SO4 loãng là
+A. Cu
+B. Ag
+C. Fe
+D. Au
 
-Câu hỏi số 5 :  Monome của polivinyl clorua là
-A. CH2=CH2
-B. CH2=CHCl
-C. CH2=CH-CH3
-D. C6H5-CH=CH2
+Câu hỏi số 5 :  Khi xà phòng hóa tripanmitin ta thu được sản phẩm là
+A. C15H31COONa và etanol
+B. C17H35COOH và glixerol
+C. C15H31COONa và glixerol
+D. C17H35COONa và glixerol
 
-Câu hỏi số 6 :  Dãy các chất nào sau đây đều có phản ứng thuỷ phân trong môi trường axit?
+Câu hỏi số 6 :  Monome của cao su buna-S là
+A. CH2=CH2 và C6H5-CH=CH2
+B. CH2=CH-CH=CH2 và C6H5-CH=CH2
+C. CH2=CHCl và CH2=CH2
+D. CH2=CH-CH3 và CH2=CH2
+
+Câu hỏi số 7 :  Phản ứng trùng hợp tạo ra polipropilen là
+A. nCH2=CH2 → (-CH2-CH2-)n
+B. nCH2=CH-CH3 → (-CH2-CH(CH3)-)n
+C. nCH2=CHCl → (-CH2-CHCl-)n
+D. nC6H5-CH=CH2 → (-CH2-CH(C6H5)-)n
+
+Câu hỏi số 8 :  Dãy các chất nào sau đây đều có phản ứng thuỷ phân trong môi trường axit?
 A. Tinh bột, xenlulozơ, glucozơ
 B. Tinh bột, xenlulozơ, fructozơ
 C. Tinh bột, xenlulozơ, saccarozơ
 D. Tinh bột, saccarozơ, fructozơ
 
-Câu hỏi số 7 :  Phản ứng nào sau đây là phản ứng trùng ngưng?
-A. nCH2=CH2 → (-CH2-CH2-)n
-B. nH2N-CH2-COOH → (-NH-CH2-CO-)n + nH2O
-C. CH3COOH + C2H5OH → CH3COOC2H5 + H2O
-D. C2H4 + H2 → C2H6
+Câu hỏi số 9 :  Số đồng phân đơn chức ứng với công thức phân tử C3H6O2 là
+A. 2
+B. 3
+C. 4
+D. 5
 
-Câu hỏi số 8 :  Dãy chất nào sau đây đều tham gia phản ứng với dung dịch NaOH?
-A. CH3COOH, C6H5OH, CH3CHO
-B. CH3COOH, C6H5OH, CH3COOCH3
-C. CH3OH, C2H5OH, CH3COOH
-D. CH3CHO, CH3COOH, C2H4
+Câu hỏi số 10 :  Có bao nhiêu tripeptit mà phân tử chứa 3 gốc amino axit khác nhau?
+A. 3 chất
+B. 5 chất
+C. 6 chất
+D. 8 chất
 
-Câu hỏi số 9 :  Hợp chất hữu cơ nào sau đây có thể tham gia phản ứng thủy phân?
-A. CH3CHO
-B. CH3COOH
-C. C2H5OH
-D. CH3COOCH3
+Câu hỏi số 11 :  Cho anilin tác dụng vừa đủ với dung dịch HCl thu được 38,85 gam muối. Khối lượng anilin đã phản ứng là
+A. 18,6g
+B. 9,3g
+C. 37,2g
+D. 27,9g
 
-Câu hỏi số 10 :  Cho sơ đồ chuyển hóa sau (mỗi mũi tên là một phương trình phản ứng): Tinh bột → X → Y → Z → metyl axetat. Các chất Y, Z trong sơ đồ trên lần lượt là
-A. C2H5OH, CH3COOH
-B. CH3COOH, CH3OH
-C. CH3COOH, C2H5OH
-D. C2H4, CH3COOH
-
-Câu hỏi số 11 :  Đốt cháy hoàn toàn 3,6 gam một hợp chất hữu cơ X, thu được 5,28 gam CO2 và 2,16 gam H2O. Công thức phân tử của X là
-A. CH4
-B. C2H4
-C. C2H6
-D. C3H8
-
-Câu hỏi số 12 :  Cho 2,7 gam Al tác dụng với dung dịch H2SO4 loãng, dư, thu được V lít khí H2 (đktc). Giá trị của V là
-A. 3,36 lít
-B. 2,24 lít
+Câu hỏi số 12 :  Cho 5,6 gam Fe tác dụng với dung dịch H2SO4 đặc, nóng, dư, thu được V lít khí SO2 (đktc). Giá trị của V là
+A. 2,24 lít
+B. 4,48 lít
 C. 1,12 lít
-D. 4,48 lít
+D. 3,36 lít
 
 Câu hỏi số 13 :  Đun nóng chất béo cần vừa đủ 40 kg dung dịch NaOH 15%, giả sử phản ứng xảy ra hoàn toàn. Khối lượng (kg) glixerol thu được là
 A. 13,8
@@ -76,45 +76,45 @@ B. 4,6
 C. 6,975
 D. 9,2
 
-Câu hỏi số 14 :  Cho 6,0 gam CH3COOH tác dụng với C2H5OH dư, thu được m gam este với hiệu suất 80%. Giá trị của m là
-A. 7,04 gam
-B. 8,8 gam
-C. 5,28 gam
-D. 10,56 gam
+Câu hỏi số 14 :  Cho 6,5 gam Zn tác dụng với Cl2 dư, thu được m gam muối. Giá trị của m là
+A. 13,6 gam
+B. 6,8 gam
+C. 10,2 gam
+D. 20,4 gam
 
-Câu hỏi số 15 :  Cho 8,1 gam NH4Cl tan hoàn toàn trong nước, thu được 200 ml dung dịch. Nồng độ mol của dung dịch là
-A. 0,75 M
-B. 0,5 M
-C. 1,0 M
-D. 0,25 M
+Câu hỏi số 15 :  Hoà tan hoàn toàn 3,6 gam một amin đơn chức X vào nước được dung dịch Y. Để trung hoà dung dịch Y cần 200 ml dung dịch HCl 0,5M. Công thức phân tử của X là
+A. CH5N
+B. C2H7N
+C. C3H9N
+D. C4H11N
 
-Câu hỏi số 16 :  Cho 10,8 gam hỗn hợp Al và Fe tác dụng với dung dịch HCl dư, thu được 8,96 lít khí H2 (đktc). Tỉ lệ khối lượng của Al và Fe trong hỗn hợp là
+Câu hỏi số 16 :  Cho 13,5 gam hỗn hợp Zn và Al tác dụng với dung dịch NaOH dư, thu được 8,96 lít khí H2 (đktc). Phần trăm khối lượng của Zn trong hỗn hợp là
+A. 48,15%
+B. 51,85%
+C. 60%
+D. 40%
+
+Câu hỏi số 17 :  Cho 10 gam hỗn hợp Zn và Al tác dụng với dung dịch H2SO4 loãng, dư, thu được 5,6 lít khí H2 (đktc). Khối lượng của Zn trong hỗn hợp là
+A. 6,5 gam
+B. 3,5 gam
+C. 5,0 gam
+D. 7,5 gam
+
+Câu hỏi số 18 :  Cho 9,0 gam hỗn hợp Al và Fe tác dụng với dung dịch HNO3 loãng, dư, thu được 2,24 lít khí NO (đktc). Tỉ lệ mol của Al và Fe trong hỗn hợp là
 A. 1:1
 B. 2:1
 C. 1:2
 D. 3:1
 
-Câu hỏi số 17 :  Cho 9,0 gam hỗn hợp Al và Fe tác dụng với dung dịch HNO3 loãng, dư, thu được 2,24 lít khí NO (đktc). Tỉ lệ mol của Al và Fe trong hỗn hợp là
-A. 1:1
-B. 2:1
-C. 1:2
-D. 3:1
-
-Câu hỏi số 18 :  Đốt cháy hoàn toàn 0,2 mol một hợp chất hữu cơ X, thu được 0,4 mol CO2 và 0,4 mol H2O. Công thức phân tử của X là
-A. CH4
-B. C2H4
-C. C2H6
-D. C3H8
-
-Câu hỏi số 19 :  Hỗn hợp X gồm hai α-amino axit no, mạch hở, kế tiếp nhau trong dãy đồng đẳng. Đốt cháy hoàn toàn 0,1 mol X cần 6,72 lít O2 (đktc), thu được 0,1 mol N2 và 0,3 mol CO2. Công thức phân tử của hai amino axit là
-A. C2H5O2N và C3H7O2N
-B. C3H7O2N và C4H9O2N
-C. C2H5O2N và C4H9O2N
-D. C4H9O2N và C5H11O2N
-
-Câu hỏi số 20 :  Cho 13,5 gam hỗn hợp Al và Zn tác dụng với dung dịch H2SO4 loãng, dư, thu được 8,96 lít khí H2 (đktc). Phần trăm khối lượng của Al trong hỗn hợp là
-A. 40%
-B. 60%
+Câu hỏi số 19 :  Cho 12,0 gam hỗn hợp Cu và Zn tác dụng với dung dịch HNO3 đặc, nóng, thu được 8,96 lít khí NO2 (đktc). Phần trăm khối lượng của Cu trong hỗn hợp là
+A. 66,67%
+B. 33,33%
 C. 50%
-D. 80%
+D. 25%
+
+Câu hỏi số 20 :  Cho 10,8 gam hỗn hợp Fe và Zn tác dụng với dung dịch HNO3 loãng, dư, thu được 2,24 lít khí NO (đktc). Tỉ lệ khối lượng của Fe và Zn trong hỗn hợp là
+A. 1:1
+B. 2:1
+C. 1:2
+D. 3:1
 

@@ -1,5 +1,6 @@
 import json
 import random 
+import time
 
 class Taikhoan:
     def __init__(self, username, password, name, admin = False, verified = False):
@@ -31,9 +32,6 @@ class Cauhoi:
         print("B.",self.answer[1])
         print("C.",self.answer[2])
         print("D.",self.answer[3])
-    def In_dapan_vaotxt(self, path_file_txt):
-        with open(path_file_txt,"a",encoding="utf-8") as f:
-            print(self.rightanswer, file = f, end = ";")
     def In_cauhoi_vaotxt(self, path_file_txt, n):
         with open(path_file_txt, "a", encoding="utf-8") as f:
             print("Câu hỏi số",n,": ",self.question,file = f)
@@ -54,7 +52,9 @@ def dem_so_dong(f):
     f.seek(0)
     return sum(1 for line in f)
 
-def Dang_ky(data_user, path_file_user): # f là file các người dùng
+def Dang_ky(path_file_user): # f là file các người dùng
+    with open(path_file_user,"r",encoding="utf-8") as f :
+        data_user = json.load(f)
     so_luong = len(data_user)
     while True:
         username = input("Nhập tài khoản: ")
@@ -85,26 +85,9 @@ def Dang_ky(data_user, path_file_user): # f là file các người dùng
                 f.close()
                 break
 
-def Dang_nhap(data_user):
-    sign = True
-    while sign:
-        username = input("Nhập tài khoản: ")
-        password = input("Nhập mật khẩu: ")
-        for i in data_user:
-            if i["username"] == username:
-                if i["password"] == password:
-                    sign = False
-                    return True, i
-                else:
-                    print("Mật khẩu bạn đã nhập sai vui lòng nhập lại.")
-                    break
-        else:
-            print("Không có tài khoản "+username)
-            turnback = input("Chưa có tài khoản? Nhấn phím 1 để quay lại đăng ký. \nẤn phím bất kỳ để thử lại.\n")
-            if turnback == "1":
-                return False
-
-def Phe_duyet(data_user, path_file_user):
+def Phe_duyet(path_file_user):
+    with open(path_file_user,"r",encoding="utf-8") as f :
+        data_user = json.load(f)
     print("Các tài khoản chưa được phê duyệt là: ")
     count = 0
     lst_index = []
@@ -131,7 +114,9 @@ def Phe_duyet(data_user, path_file_user):
             json.dump(data_user, f,ensure_ascii=False)
         print("Đã xác thực thành công")
 
-def Chinhsua_cauhoi(data_question, path_file_question):
+def Chinhsua_cauhoi(path_file_question):
+    with open(path_file_question,"r",encoding="utf-8") as f :
+        data_question = json.load(f)
     idquestion = input("Nhập mã câu hỏi vào đây: ")
     idquestion = Xoa_khoangtrang(idquestion)
     for i in data_question:
@@ -178,7 +163,9 @@ def Chinhsua_cauhoi(data_question, path_file_question):
             return
     else:
         print("Không tìm thấy câu hỏi bạn yêu cầu.")
-def Xoa_cauhoi(data_question, path_file_question):
+def Xoa_cauhoi(path_file_question):
+    with open(path_file_question,"r",encoding="utf-8") as f :
+        data_question = json.load(f)
     idquestion = input("Nhập mã câu hỏi bạn muốn xóa vào đây: ")
     idquestion = Xoa_khoangtrang(idquestion)
     for i in data_question:
@@ -200,7 +187,9 @@ def Xoa_cauhoi(data_question, path_file_question):
     else:
         print("Không tìm thấy câu hỏi. Dừng chương trình")
 
-def Them_cauhoi(data_question, path_file_question):
+def Them_cauhoi(path_file_question):
+    with open(path_file_question,"r",encoding="utf-8") as f :
+        data_question = json.load(f)
     new_ID = input("Nhập mã câu hỏi bạn muốn thêm vào đây: ")
     new_ID = Xoa_khoangtrang(new_ID)
     if not new_ID.isdigit():
@@ -238,7 +227,9 @@ def Them_cauhoi(data_question, path_file_question):
             json.dump(data_question, f, ensure_ascii=False)
         print("Đã thêm câu hỏi thành công")
 
-def Tao_dethi(data_question):
+def Tao_dethi(path_file_question, file_exam):
+    with open(path_file_question,"r",encoding="utf-8") as f :
+        data_question = json.load(f)
     n_dokho1 = 0
     n_dokho2 = 0
     n_dokho3 = 0
@@ -315,26 +306,205 @@ def Tao_dethi(data_question):
         Cauhoi_moi = Cauhoi(tmp["ID"], tmp["question"],tmp["answer"],tmp["rightanswer"],tmp["level"])
         lst_Cauhoi.append(Cauhoi_moi)
     path_file = input("Bạn muốn lưu đề vào file nào (đuôi txt): ")
-    
+    ID = input("Mã của đề mới tạo: ")
+    with open(file_exam,"r",encoding="utf-8") as f:
+        data_exam = json.load(f)
+    for i in data_exam:
+        if i["ID"] == ID:
+            print("Đã có ID này rồi. Vui lòng thử lại")
+            return
+    lst_Ranswer = []
     for i in range(len(lst_Cauhoi)):
         lst_Cauhoi[i].In_cauhoi_vaotxt(path_file,i+1)
+        lst_Ranswer.append(lst_Cauhoi[i].rightanswer)
+    new_exam = {"ID":ID,
+                "file":path_file,
+                "rightanswer": lst_Ranswer}
+    data_exam.append(new_exam)
+    with open(file_exam, "w", encoding="utf-8") as f:
+        json.dump(data_exam, f, ensure_ascii=False)
     print("Đã tạo đề mới thành công")
 
+def parse_answers(input_str, total_questions):
+    # Tách từng mục theo khoảng trắng
+    items = input_str.split()
+    answers = [None] * total_questions
+    # Xử lý từng mục
+    for item in items:
+        question, answer = item.split('.')
+        index = int(question) - 1  # chuyển về chỉ số 0
+        if 0 <= index < total_questions:
+            answers[index] = answer.upper() # Hàm upper sẽ viết hoa
+    return answers
 
+def Lam_de(file_exam,username,file_answers):
+    ID = input("Bạn muốn làm đề nào: ")
+    with open(file_exam, "r", encoding="utf-8") as f:
+        data_exam = json.load(f)
+    for i in data_exam:
+        if i["ID"] == ID:
+            break
+    else:
+        print("Không tìm thấy đề thi bạn yêu cầu.")
+        return
+    with open(i["file"],"r",encoding="utf-8") as f:
+        data = f.read()
+    print("Mã dề thi:",ID)
+    print(data)
+    total_questions = len(i["rightanswer"])
+    print("Nhập đáp án, nếu không có câu trả lời thì bỏ trắng nhập câu khác( VD 1.A 2.B 5.D): ",end = "")
+    answers = input("")
+    answers = parse_answers(answers,total_questions)
+    with open(file_answers,"r",encoding="utf-8") as f :
+        data_answer = json.load(f)
+    new_data = {
+        "ID":ID,
+        "username":username,
+        "answer": answers,
+        "score": None
+    }
+    data_answer.append(new_data)
+    with open(file_answers,"w",encoding="utf-8") as f :
+        json.dump(data_answer, f, ensure_ascii=False)
+    print("Đã lưu kết quả thi thành công")
+def Xem_diem(file_answers, username):
+    print("Xin chào",username)
+    print("Điểm của bạn: ")
+    with open(file_answers,"r",encoding="utf-8") as f :
+        data_answer = json.load(f)
+    for i in data_answer:
+        if i["username"] == username:
+            print("Mã đề:",i["ID"],"Điểm:",i["score"])
+def Cham_diem(file_answers, file_exam):
+    with open(file_answers,"r",encoding="utf-8") as f :
+        data_answer = json.load(f)
+    with open(file_exam,"r",encoding="utf-8") as f :
+        data_exam = json.load(f)
+    for i in data_answer:
+        if i["score"] == None:
+            count = 0
+            for j in data_exam:
+                if j["ID"] == i["ID"]:
+                    lst_Ranswer = j["rightanswer"]
+                    total_answer = len(lst_Ranswer)
+                    break
+            for j in range(total_answer):
+                if i["answer"][j] == lst_Ranswer[j]:
+                    count += 1
+            i["score"] = count/total_answer*10
+    with open(file_answers,"w",encoding="utf-8") as f :
+        json.dump(data_answer, f, ensure_ascii=False)
+    print("Đã chấm điểm thành công")
+
+def Dang_nhap(data_user):
+    with open(file_user, "r", encoding="utf-8") as f:
+        data_user = json.load(f)
+    sign = True
+    while sign:
+        username = input("Nhập tài khoản: ")
+        password = input("Nhập mật khẩu: ")
+        for i in data_user:
+            if i["username"] == username:
+                if i["password"] == password:
+                    sign = False
+                    return True, i
+                else:
+                    print("Mật khẩu bạn đã nhập sai vui lòng nhập lại.")
+                    break
+        else:
+            print("Không có tài khoản "+username)
+            turnback = input("Chưa có tài khoản? Nhấn phím 1 để quay lại đăng ký. \nẤn phím bất kỳ để thử lại.\n")
+            if turnback == "1":
+                return False, None
+            
 def Giaodien_Bandau():
     print("Chức năng 1: Đăng nhập")
     print("Chức năng 2: Đăng ký tài khoản")
     print("Chức năng 3: Thoát")
-def Giaodien_Admin():
-    print("Chức năng 1: Phê duyệt tài khoản")
-    print("Chức năng 2: Chỉnh sửa câu hỏi")
-    print("Chức năng 3: Xóa câu hỏi")
-    print("Chức năng 4: Thêm câu hỏi vào ngân hàng câu hỏi")
-    print("Chức năng 5: Tạo đề thi ")
-    print("Chức năng 6: Chấm điểm")
-    print("Chức năng 7: Báo cáo kết quả")
-with open("questions.json","r",encoding="utf-8") as f :
-    data = json.load(f)
-# Dang_ky(data,"User.json")
-Tao_dethi(data)
+
+def Giaodien_Admin(file_user,file_questions,file_exam,file_answer):
+    while True:
+        print("\n---- Xin chào Admin ----\n")
+        print("Chức năng 1: Phê duyệt tài khoản")
+        print("Chức năng 2: Chỉnh sửa câu hỏi")
+        print("Chức năng 3: Xóa câu hỏi")
+        print("Chức năng 4: Thêm câu hỏi vào ngân hàng câu hỏi")
+        print("Chức năng 5: Tạo đề thi ")
+        print("Chức năng 6: Chấm điểm")
+        print("Chức năng 7: Báo cáo kết quả")
+        print("Chức năng 8: Thoát")
+        choice = input("Bạn muốn chọn chức năng gì: ")
+        if choice == "1":
+            Phe_duyet(file_user)
+            time.sleep(2)
+        elif choice =="2":
+            Chinhsua_cauhoi(file_questions)
+            time.sleep(2)
+        elif choice == "3":
+            Xoa_cauhoi(file_questions)
+            time.sleep(2)
+        elif choice == "4":
+            Them_cauhoi(file_questions)
+            time.sleep(2)
+        elif choice == "5":
+            Tao_dethi(file_questions,file_exam)
+            time.sleep(2)
+        elif choice == "6":
+            Cham_diem(file_answer,file_exam)
+            time.sleep(2)
+        elif choice == "7":
+            print("Chức năng này đang phát triển")
+            time.sleep(2)
+        elif choice == "8":
+            time.sleep(2)
+            break
+        else:
+            print("Không nhận được yêu cầu phù hợp.")
+            time.sleep(2)
+def Giaodien_hsinh(file_exam,file_answer,username):
+    username = user["username"]
+    while True:
+        print("\n---- Xin chào "+user["name"]+" ----\n")
+        print("Chức năng 1: Làm đề")
+        print("Chức năng 2: xem kết quả")
+        print("Chức năng 3: Thoát")
+        choice = input("Bạn muốn chọn chức năng gì: ")
+        if choice == "1":
+            Lam_de(file_exam,username,file_answer)
+            time.sleep(2)
+        elif choice == "2":
+            Xem_diem(file_answer,username)
+            time.sleep(2)
+        elif choice == "3":
+            time.sleep(2)
+            break
+        else:
+            print("Không nhận được yêu cầu phù họp")
+            time.sleep(2)
+
+file_user = "User.json"
+file_questions = "questions.json"
+file_exam ="exam.json"
+file_answer = "answers.json"
+while True:
+    print("\n---- Chào mừng tới chương trình quản lý đề thi ----\n")
+    Giaodien_Bandau()
+    choice = input("Hãy nhập chức năng bạn mong muốn: ")
+    if choice == "1":
+        retu, user = Dang_nhap(file_user)
+        if not retu:
+            continue
+        else:
+            if user["admin"]:
+                Giaodien_Admin(file_user,file_questions,file_exam,file_answer)
+            else:
+                Giaodien_hsinh(file_exam,file_answer,user)
+    elif choice == "2":
+        Dang_ky(file_user)
+    elif choice == "3":
+        print("Thoát chương trình.")
+        break
+    else:
+        print("Không hiếu yêu cầu vui lòng nhập lại")
+
 # print(z)
