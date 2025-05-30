@@ -1,0 +1,23 @@
+[
+    {
+        "username": "Admin",
+        "password": "Admin",
+        "name": "Admin",
+        "admin": true,
+        "verified": true
+    },
+    {
+        "username": "a",
+        "password": "a",
+        "name": "a",
+        "admin": false,
+        "verified": true
+    },
+    {
+        "username": "b",
+        "password": "b",
+        "name": "b",
+        "admin": false,
+        "verified": true
+    }
+]
