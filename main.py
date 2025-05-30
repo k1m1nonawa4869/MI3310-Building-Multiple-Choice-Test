@@ -31,13 +31,17 @@ class Cauhoi:
         print("B.",self.answer[1])
         print("C.",self.answer[2])
         print("D.",self.answer[3])
+    def In_dapan_vaotxt(self, path_file_txt):
+        with open(path_file_txt,"a",encoding="utf-8") as f:
+            print(self.rightanswer, file = f, end = ";")
     def In_cauhoi_vaotxt(self, path_file_txt, n):
-        with open(path_file_txt, "w", encoding="utf-8") as f:
-            print("Câu hỏi số",n,": ",self.question)
-            print("A.",self.answer[0])
-            print("B.",self.answer[1])
-            print("C.",self.answer[2])
-            print("D.",self.answer[3])
+        with open(path_file_txt, "a", encoding="utf-8") as f:
+            print("Câu hỏi số",n,": ",self.question,file = f)
+            print("A.",self.answer[0],file = f)
+            print("B.",self.answer[1],file = f)
+            print("C.",self.answer[2],file = f)
+            print("D.",self.answer[3],file = f)
+            print("",file = f)
 def Xoa_khoangtrang(string): # hàm xóa các khoảng trắng và trả về string
     string1=""
     for i in string:
@@ -234,7 +238,7 @@ def Them_cauhoi(data_question, path_file_question):
             json.dump(data_question, f, ensure_ascii=False)
         print("Đã thêm câu hỏi thành công")
 
-def Tao_dethi(data_question, path_file_question):
+def Tao_dethi(data_question):
     n_dokho1 = 0
     n_dokho2 = 0
     n_dokho3 = 0
@@ -307,6 +311,14 @@ def Tao_dethi(data_question, path_file_question):
         lst_index_ques.append(ques_random)
     lst_Cauhoi = []
     for i in lst_index_ques:
+        tmp = data_question[i]
+        Cauhoi_moi = Cauhoi(tmp["ID"], tmp["question"],tmp["answer"],tmp["rightanswer"],tmp["level"])
+        lst_Cauhoi.append(Cauhoi_moi)
+    path_file = input("Bạn muốn lưu đề vào file nào (đuôi txt): ")
+    
+    for i in range(len(lst_Cauhoi)):
+        lst_Cauhoi[i].In_cauhoi_vaotxt(path_file,i+1)
+    print("Đã tạo đề mới thành công")
 
 
 def Giaodien_Bandau():
@@ -324,5 +336,5 @@ def Giaodien_Admin():
 with open("questions.json","r",encoding="utf-8") as f :
     data = json.load(f)
 # Dang_ky(data,"User.json")
-Tao_dethi(data,"questions.json")
+Tao_dethi(data)
 # print(z)
