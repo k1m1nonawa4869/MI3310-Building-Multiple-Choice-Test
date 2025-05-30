@@ -1,0 +1,1 @@
+Project aims to create a simple Multiple Choice Test software that can help students & teachers in: creating and managing question banks, creating exams based on requirements, and score the exam from file. 
