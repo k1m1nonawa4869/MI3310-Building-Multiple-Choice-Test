@@ -395,6 +395,103 @@ def Cham_diem(file_answers, file_exam):
     with open(file_answers,"w",encoding="utf-8") as f :
         json.dump(data_answer, f, ensure_ascii=False)
     print("Đã chấm điểm thành công")
+def Tim_max(lst):
+    max = lst[0]
+    index = 0
+    for i in range(len(lst)):
+        if lst[i] > max: 
+            max = lst[i]
+            index = i
+    return max,index
+def Tim_min(lst):
+    min = lst[0]
+    index = 0 
+    for i in range(len(lst)):
+        if lst[i] <min:
+            min = lst[i]
+            index = i
+    return min, index 
+def Tim_avg(lst):
+    sum = 0
+    for i in lst:
+        sum += i
+    return sum/(len(lst))
+def Tim_phuongsai_hieuchinh(lst,avg):
+    sum = 0
+    for i in lst:
+        sum +=(i-avg)**2
+    return sum/(len(lst)-1)
+def Lam_tron(lst):
+    tmp_lst = []
+    for i in lst:
+        if i//1+0.5>i:
+            tmp_lst.append(int(i//1))
+        else:
+            tmp_lst.append(int(i//1+1))
+    return tmp_lst
+def Dem_diem(lst):
+    tmp =[0]*11
+    for i in lst:
+        tmp[i]+=1
+    return tmp
+def Bao_cao(file_answers, file_exam):
+    with open(file_answers,"r",encoding="utf-8") as f :
+        data_answer = json.load(f)
+    with open(file_exam,"r",encoding="utf-8") as f :
+        data_exam = json.load(f)
+    ID_exam = input("Nhập ID bài kiểm tra bạn muốn làm báo cáo: ")
+    for i in data_exam:
+        if i["ID"] == ID_exam:
+            print("Đã tìm thấy đề thi")
+            exam = i
+            break
+    else:
+        return
+    time.sleep(1)
+    soluong_traloi = 0
+    soluong_cham = 0
+    soluong_cauhoi = len(data_answer[0]["answer"])
+    lst_answer_dung = [0]*soluong_cauhoi
+    lst_score = []
+    for i in data_answer:
+        if i["ID"] == ID_exam:
+            soluong_traloi+=1
+            if i["score"] != None:
+                soluong_cham +=1
+                lst_score.append(i["score"])
+                for j in range(soluong_cauhoi):
+                    if i["answer"][j] == exam["rightanswer"][j]:
+                        lst_answer_dung[j]+=1
+    print("Số lượng bài đã làm:",soluong_traloi)
+    print("Số lượng bài đã chấm:",soluong_cham)
+    if soluong_cham<=1:
+        print("Số lượng đề thi đã chấm quá ít xin vui lòng chấm tiếp để đưa ra thông tin phù hợp")
+    else:
+        max, index_max =Tim_max(lst_answer_dung)
+        min, index_min = Tim_min(lst_answer_dung)
+        avg = Tim_avg(lst_score)
+        s_2 = Tim_phuongsai_hieuchinh(lst_score,avg)
+        print("Câu thứ",index_max+1,"có số lượng trả lời đúng nhiều nhất:",max," lượt")
+        print("Câu thứ",index_min+1,"có số lượng trả lời đúng ít nhất:",min," lượt")
+        print("Điểm trung bình:",avg)
+        print("Độ lệch chuẩn hiệu chỉnh:",s_2**(1/2))
+        lst_lamtron = Lam_tron(lst_score)
+        lst_count = Dem_diem(lst_lamtron)
+        max_daudiem, duthua =Tim_max(lst_lamtron)
+        for h in range(max_daudiem, 0, -1):
+            line = ""
+            for value in lst_count:
+                if value >= h:
+                    line += "█ " # kí hiệu Full Block
+                else:
+                    line += "  "
+            print(line)
+
+        print("―" * (2 * len(lst_count)))
+        print(" ".join(str(i) for i in range(len(lst_count))))
+
+
+    
 
 def Dang_nhap(data_user):
     with open(file_user, "r", encoding="utf-8") as f:
@@ -453,7 +550,7 @@ def Giaodien_Admin(file_user,file_questions,file_exam,file_answer):
             Cham_diem(file_answer,file_exam)
             time.sleep(2)
         elif choice == "7":
-            print("Chức năng này đang phát triển")
+            Bao_cao(file_answer,file_exam)
             time.sleep(2)
         elif choice == "8":
             time.sleep(2)
