@@ -503,6 +503,9 @@ def Dang_nhap(data_user):
         for i in data_user:
             if i["username"] == username:
                 if i["password"] == password:
+                    if i["verified"] == False:
+                        print("Tài khoản của bạn chưa được xác thực. Vui lòng chờ xác thực")
+                        break
                     sign = False
                     return True, i
                 else:
