@@ -1,4 +1,5 @@
 [
+<<<<<<< Updated upstream
     {
         "username": "Admin",
         "password": "Admin",
@@ -20,4 +21,11 @@
         "admin": false,
         "verified": true
     }
+=======
+    {"username": "Admin", "password": "Admin", "name": "Admin", "admin": true, "verified": true}, 
+    {"username": "a", "password": "a", "name": "a", "admin": false, "verified": true}, 
+    {"username": "b", "password": "b", "name": "b", "admin": false, "verified": true}, 
+    {"username": "d", "password": "d", "name": "d", "admin": false, "verified": true}, 
+    {"username": "z", "password": "z", "name": "z", "admin": false, "verified": false}
+>>>>>>> Stashed changes
 ]
