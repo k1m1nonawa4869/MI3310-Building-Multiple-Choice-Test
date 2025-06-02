@@ -45,6 +45,7 @@ def add_question():
         print("Warning: Invalid difficulty level.")
         return
 
+    # `qid` stays a string here
     new_q = Question(qid, text, options, correct, level)
     questions.append(new_q)
     save_all_questions(questions)
@@ -59,9 +60,11 @@ def edit_question():
 
     print("\nExisting Questions:")
     for q in questions:
+        # q.id is a string
         print(f"- ID: {q.id} | Level: {q.level} | Text: {q.text[:50]}...")
 
     qid = input("Enter ID of question to edit: ").strip()
+    # Compare string to string (no int conversion needed)
     target = next((q for q in questions if q.id == qid), None)
     if not target:
         print(f"Warning: No question with ID '{qid}'.")

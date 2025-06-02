@@ -1,7 +1,14 @@
 # exam_manager.py
 
 import random
-from utils import safe_load_json, safe_save_json, EXAM_FILE, ANSWER_FILE, parse_answers, round_scores, histogram
+import math
+from utils import (
+    safe_load_json,
+    safe_save_json,
+    EXAM_FILE,
+    ANSWER_FILE,
+    parse_answers
+)
 from models import Question
 
 
@@ -23,9 +30,8 @@ def save_all_answers(ans_list):
 
 def create_exam():
     """
-    Admin: specify an exam ID, pick questions by difficulty,
-    write a .txt file, and record exam in exam.json under keys "ID", "file", "rightanswer".
-    We will build "rightanswer" by reading each question’s correct_option.
+    Admin function: specify an exam ID and how many questions at each level.
+    Randomly pick from available questions, write an .txt file, and record in exam.json.
     """
     exams = load_all_exams()
     existing_ids = {e["ID"] for e in exams}
@@ -35,22 +41,20 @@ def create_exam():
         print("Warning: Exam ID already exists.")
         return
 
-    # Load questions grouped by level
+    # Load questions by level
     from question_manager import get_questions_by_level
     by_level = get_questions_by_level()
 
-    # Show how many questions exist at each level
+    # Show how many questions are available at each level
     for lvl in Question.VALID_LEVELS:
         total = len(by_level.get(lvl, []))
         print(f"Level '{lvl}': {total} available questions.")
 
-    # Ask how many from each level
     cnt_easy = input("Number of 'BIẾT' questions: ").strip()
     cnt_medium = input("Number of 'HIỂU' questions: ").strip()
     cnt_low_app = input("Number of 'VẬN DỤNG THẤP' questions: ").strip()
     cnt_high_app = input("Number of 'VẬN DỤNG CAO' questions: ").strip()
 
-    # Validate
     if not all(x.isdigit() for x in [cnt_easy, cnt_medium, cnt_low_app, cnt_high_app]):
         print("Warning: All must be non-negative integers.")
         return
@@ -65,17 +69,18 @@ def create_exam():
         print("Warning: Requested number exceeds available questions.")
         return
 
-    # Randomly pick question IDs
+    # Random selection of question IDs
     sel_ids = []
     sel_ids += random.sample([q.id for q in by_level["BIẾT"]], cnt_easy)
     sel_ids += random.sample([q.id for q in by_level["HIỂU"]], cnt_medium)
     sel_ids += random.sample([q.id for q in by_level["VẬN DỤNG THẤP"]], cnt_low_app)
     sel_ids += random.sample([q.id for q in by_level["VẬN DỤNG CAO"]], cnt_high_app)
 
-    # Build a lookup of all Question objects by ID
-    all_qs = {q.id: q for q in (by_level["BIẾT"] + by_level["HIỂU"] + by_level["VẬN DỤNG THẤP"] + by_level["VẬN DỤNG CAO"])}
+    # Build lookup of all questions by ID
+    all_qs = {q.id: q for q in (by_level["BIẾT"] + by_level["HIỂU"]
+                                 + by_level["VẬN DỤNG THẤP"] + by_level["VẬN DỤNG CAO"])}
 
-    # Write the exam file (e.g., "exam_id.txt")
+    # Create exam text file
     filename = f"{exam_id}.txt"
     try:
         with open(filename, "w", encoding="utf-8") as f:
@@ -90,10 +95,10 @@ def create_exam():
         print(f"Error: Cannot create exam file '{filename}': {e}")
         return
 
-    # Build the list of correct answers (order matters)
+    # Build the list of correct answers in order
     correct_list = [all_qs[qid].correct_option for qid in sel_ids]
 
-    # Record in exam.json under keys: "ID", "file", "rightanswer"
+    # Record in exam.json
     exams.append({
         "ID": exam_id,
         "file": filename,
@@ -105,8 +110,7 @@ def create_exam():
 
 def take_exam(current_user):
     """
-    Student: enter exam ID, display the .txt contents, accept answers (as ["1.A", "2.B", ...]),
-    then save to answers.json under keys "ID", "username", "answer", "score"=None.
+    Student function: prompt for exam ID, load .txt, accept answers, and save to answers.json.
     """
     exams = load_all_exams()
     if not exams:
@@ -123,7 +127,7 @@ def take_exam(current_user):
         print("Warning: No such exam.")
         return
 
-    # Display the exam file
+    # Display exam content
     try:
         with open(chosen["file"], "r", encoding="utf-8") as f:
             content = f.read()
@@ -138,10 +142,10 @@ def take_exam(current_user):
 
     all_answers = load_all_answers()
     record = {
-        "ID": exam_id,                # matches key in your answers.json
+        "ID": exam_id,                # exam identifier
         "username": current_user.username,
-        "answer": answers,            # student's list of answers
-        "score": None                 # will be set during grading
+        "answer": answers,            # list of answers or None
+        "score": None                 # to be filled later
     }
     all_answers.append(record)
     save_all_answers(all_answers)
@@ -150,18 +154,15 @@ def take_exam(current_user):
 
 def grade_exams():
     """
-    Admin: go through all entries in answers.json where “score” is None,
-    compare entry["answer"] vs. exam["rightanswer"], compute raw score→rounded (0..10),
-    and store back in that record’s "score".
+    Admin function: grade all ungraded exams. The resulting score is a float with two decimal places.
     """
     all_answers = load_all_answers()
     exams = load_all_exams()
 
     updated = False
     for entry in all_answers:
-        # If score is already set (not None), skip
         if entry.get("score") is not None:
-            continue
+            continue  # already graded
 
         exam_id = entry["ID"]
         exam = next((e for e in exams if e["ID"] == exam_id), None)
@@ -172,22 +173,22 @@ def grade_exams():
         correct_answers = exam.get("rightanswer", [])
         student_answers = entry.get("answer", [])
 
-        # If lengths mismatch, skip
         if len(student_answers) != len(correct_answers):
             print(f"Warning: Mismatch answer count for {entry['username']} on Exam '{exam_id}'. Skipping.")
             continue
 
-        # Count correct
         correct_count = sum(
             1 for i in range(len(correct_answers))
             if student_answers[i] == correct_answers[i]
         )
-        raw_score = correct_count / len(correct_answers) * 10
-        rounded = round_scores([raw_score])[0]
+        raw_score = (correct_count / len(correct_answers)) * 10
+
+        # Round to two decimals using math: .5 and above rounds up
+        rounded = math.floor(raw_score * 100 + 0.5) / 100
 
         entry["score"] = rounded
         updated = True
-        print(f"Graded: {entry['username']} | Exam '{exam_id}' → {rounded}/10")
+        print(f"Graded: {entry['username']} | Exam '{exam_id}' → {rounded:.2f}/10")
 
     if updated:
         save_all_answers(all_answers)
@@ -197,8 +198,12 @@ def grade_exams():
 
 def generate_report():
     """
-    Admin: produce highest, lowest, average, variance, histogram for a given exam ID,
-    based on answers.json → entry["score"].
+    Admin function: for a given Exam ID, produce:
+      - highest score
+      - lowest score
+      - average score
+      - variance
+      - histogram (based on integer buckets, using math‐style rounding)
     """
     answers = load_all_answers()
     exams = load_all_exams()
@@ -218,7 +223,8 @@ def generate_report():
         print("No graded records for this exam.")
         return
 
-    scores = [r["score"] for r in exam_records]
+    # Collect scores as floats
+    scores = [float(r["score"]) for r in exam_records]
     n = len(scores)
     mx = max(scores)
     mn = min(scores)
@@ -227,16 +233,27 @@ def generate_report():
 
     print(f"\nReport for Exam '{exam_id}':")
     print(f"- Number of students: {n}")
-    print(f"- Highest score: {mx}")
-    print(f"- Lowest score: {mn}")
+    print(f"- Highest score: {mx:.2f}")
+    print(f"- Lowest score: {mn:.2f}")
     print(f"- Average score: {avg:.2f}")
     print(f"- Variance: {var:.2f}\n")
 
-    hist = histogram(scores)
+    # Build a histogram: first convert each float into the nearest integer bucket
+    hist_counts = [0] * 11  # index 0..10
+    for s in scores:
+        # Convert to nearest integer using math: .5 and above → next integer
+        bucket = math.floor(s + 0.5)
+        if bucket < 0:
+            bucket = 0
+        elif bucket > 10:
+            bucket = 10
+        hist_counts[bucket] += 1
+
     print("Score Distribution:")
-    for score_val, count in enumerate(hist):
+    for score_val, count in enumerate(hist_counts):
         bar = "█" * count
         print(f"{score_val:2d} | {bar} ({count})")
+
 
 def view_student_scores(current_user):
     """
@@ -255,10 +272,9 @@ def view_student_scores(current_user):
     for entry in user_records:
         eid = entry.get("ID")
         score = entry.get("score")
-        # Find the exam’s filename or at least check it exists to confirm validity
+
         exam_obj = next((e for e in exams if e["ID"] == eid), None)
         if exam_obj is None:
-            # If the exam was deleted from exam.json after they took it, still show the record
             exam_label = f"{eid} (exam no longer exists)"
         else:
             exam_label = eid
@@ -266,4 +282,4 @@ def view_student_scores(current_user):
         if score is None:
             print(f"- Exam '{exam_label}': Not yet graded")
         else:
-            print(f"- Exam '{exam_label}': {score}/10")
+            print(f"- Exam '{exam_label}': {score:.2f}/10")

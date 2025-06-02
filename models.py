@@ -53,18 +53,20 @@ class User:
 class Question:
     """
     Represents a question with 4 possible answers.
+
     JSON keys:
-      - "ID"
+      - "ID"           (may be a number in JSON, but we always cast it to string internally)
       - "question"
       - "answer"       (list of 4 choices)
       - "rightanswer"  (one of "A"/"B"/"C"/"D")
-      - "level"
+      - "level"        ("BIẾT", "HIỂU", "VẬN DỤNG THẤP", or "VẬN DỤNG CAO")
     """
 
     VALID_LEVELS = {"BIẾT", "HIỂU", "VẬN DỤNG THẤP", "VẬN DỤNG CAO"}
 
     def __init__(self, qid, text, options, correct_option, level):
-        self.id = qid
+        # Force ID to be a string internally, even if JSON had it as a number.
+        self.id = str(qid)
         self.text = text
         self.options = options              # list of exactly 4 strings
         self.correct_option = correct_option  # "A","B","C","D"
@@ -72,6 +74,10 @@ class Question:
 
     @classmethod
     def from_dict(cls, data):
+        """
+        When loading from JSON, data["ID"] might be an int. We cast it to str in __init__,
+        so self.id always becomes a string.
+        """
         return cls(
             qid=data["ID"],
             text=data["question"],
@@ -86,10 +92,25 @@ class Question:
         )
 
     def to_dict(self):
+        """
+        When saving back to JSON, convert the string ID back to an integer if possible.
+        Otherwise, leave it as a string.
+        """
+        try:
+            # If self.id consists of digits only, cast back to int
+            id_as_int = int(self.id)
+        except ValueError:
+            id_as_int = self.id  # leave as string if not purely numeric
+
         return {
-            "ID": self.id,
+            "ID": id_as_int,
             "question": self.text,
-            "answer": [self.options[0], self.options[1], self.options[2], self.options[3]],
+            "answer": [
+                self.options[0],
+                self.options[1],
+                self.options[2],
+                self.options[3]
+            ],
             "rightanswer": self.correct_option,
             "level": self.level
         }
