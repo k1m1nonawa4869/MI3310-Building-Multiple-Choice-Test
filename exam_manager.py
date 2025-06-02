@@ -203,7 +203,7 @@ def generate_report():
       - lowest score
       - average score
       - variance
-      - histogram (based on integer buckets, using math‐style rounding)
+      - vertical histogram with 0.5‐point bins from 0.0 to 10.0
     """
     answers = load_all_answers()
     exams = load_all_exams()
@@ -238,22 +238,46 @@ def generate_report():
     print(f"- Average score: {avg:.2f}")
     print(f"- Variance: {var:.2f}\n")
 
-    # Build a histogram: first convert each float into the nearest integer bucket
-    hist_counts = [0] * 11  # index 0..10
+    # Build a histogram with 0.5 increments:
+    # Bins indexed 0..20 corresponding to 0.0, 0.5, 1.0, ..., 10.0
+    bin_count = 21
+    hist_counts = [0] * bin_count
     for s in scores:
-        # Convert to nearest integer using math: .5 and above → next integer
-        bucket = math.floor(s + 0.5)
-        if bucket < 0:
-            bucket = 0
-        elif bucket > 10:
-            bucket = 10
-        hist_counts[bucket] += 1
+        # Map score to nearest 0.5 bin index
+        idx = math.floor(s * 2 + 0.5)
+        if idx < 0:
+            idx = 0
+        elif idx >= bin_count:
+            idx = bin_count - 1
+        hist_counts[idx] += 1
 
-    print("Score Distribution:")
-    for score_val, count in enumerate(hist_counts):
-        bar = "█" * count
-        print(f"{score_val:2d} | {bar} ({count})")
+    # Determine the tallest column
+    max_height = max(hist_counts)
 
+    print("Score Distribution (0.5‐point bins, vertical):")
+
+    # First line: print counts above each column (if > 0)
+    counts_line = ""
+    for count in hist_counts:
+        counts_line += f"{count:^5}" if count > 0 else "     "
+    print(counts_line)
+
+    # For each level from max_height down to 1, print a row of blocks
+    for level in range(max_height, 0, -1):
+        line = ""
+        for count in hist_counts:
+            line += "  █  " if count >= level else "     "
+        print(line)
+
+    # Print a separator below the columns
+    print("―" * (5 * bin_count - 1))
+
+    # Print the labels (0.0, 0.5, 1.0, ..., 10.0) below, each centered in 5 spaces
+    labels = ""
+    for i in range(bin_count):
+        lbl = f"{i*0.5:.1f}"
+        labels += f"{lbl:^5}"
+    print(labels)
 
 def view_student_scores(current_user):
     """
