@@ -1,15 +1,16 @@
 # exam_manager.py
-
+import os
 import random
 import math
-from utils import (
-    safe_load_json,
-    safe_save_json,
-    EXAM_FILE,
-    ANSWER_FILE,
-    parse_answers
-)
-from models import Question
+from data.utils import safe_load_json, safe_save_json, EXAM_FILE, ANSWER_FILE, parse_answers
+from models.models import Question
+
+
+# BASE_DIR_JSON points at "data/" (where all JSON files live)
+BASE_DIR_JSON = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data")
+
+# BASE_DIR_TXT points at "data/test/" (where all exam‐text .txt files will be stored)
+BASE_DIR_TXT = os.path.join(BASE_DIR_JSON, "test")
 
 
 def load_all_exams():
@@ -30,19 +31,44 @@ def save_all_answers(ans_list):
 
 def create_exam():
     """
-    Admin function: specify an exam ID and how many questions at each level.
-    Randomly pick from available questions, write an .txt file, and record in exam.json.
+    Admin function: prompt for an exam ID. If that ID already exists in exam.json, ask the admin whether to overwrite or choose a different ID. Once a unique (or confirmed-overwrite) ID is chosen, randomly select questions by difficulty, write data/<exam_id>.txt, and update exam.json accordingly.
     """
+    # Load existing exams
     exams = load_all_exams()
     existing_ids = {e["ID"] for e in exams}
 
-    exam_id = input("Enter new Exam ID: ").strip()
-    if exam_id in existing_ids:
-        print("Warning: Exam ID already exists.")
-        return
+    # Prompt for a new Exam ID (or re‐prompt if the admin decides not to overwrite)
+    while True:
+        exam_id = input("Enter new Exam ID: ").strip()
+        if not exam_id:
+            print("Warning: Exam ID cannot be empty.")
+            continue
+
+        if exam_id in existing_ids:
+            # ID already exists
+            print(f"Warning: Exam ID '{exam_id}' already exists.")
+            choice = input("Do you want to overwrite the existing exam? (Y/N): ").strip().upper()
+            if choice == "Y":
+                # Admin wants to overwrite—remove the old entry from exams list
+                exams = [e for e in exams if e["ID"] != exam_id]
+                print(f"Existing exam '{exam_id}' will be overwritten.")
+                break
+            else:
+                # Ask for a different ID (or allow them to cancel entirely)
+                retry = input("Do you want to enter a different ID? (Y/N): ").strip().upper()
+                if retry == "Y":
+                    continue  # go back to the start of the while‐loop
+                else:
+                    print("Create exam cancelled.")
+                    return
+        else:
+            # ID does not exist—OK to proceed
+            break
+
+    # At this point, 'exam_id' is either a brand‐new ID, or an existing one that the admin explicitly chose to overwrite. 'exams' list no longer contains any entry for that ID.
 
     # Load questions by level
-    from question_manager import get_questions_by_level
+    from controllers.question_manager import get_questions_by_level
     by_level = get_questions_by_level()
 
     # Show how many questions are available at each level
@@ -81,8 +107,11 @@ def create_exam():
                                  + by_level["VẬN DỤNG THẤP"] + by_level["VẬN DỤNG CAO"])}
 
     # Create exam text file
-    filename = f"{exam_id}.txt"
+    filename = os.path.join(BASE_DIR_TXT, f"{exam_id}.txt")
     try:
+        # Ensure the “data/test” directory exists (in case it was deleted)
+        os.makedirs(BASE_DIR_TXT, exist_ok=True)
+
         with open(filename, "w", encoding="utf-8") as f:
             for idx, qid in enumerate(sel_ids, start=1):
                 q = all_qs[qid]
@@ -128,8 +157,9 @@ def take_exam(current_user):
         return
 
     # Display exam content
+    exam_filename = os.path.join(BASE_DIR_TXT, chosen["file"])
     try:
-        with open(chosen["file"], "r", encoding="utf-8") as f:
+        with open(exam_filename, "r", encoding="utf-8") as f:
             content = f.read()
             print("\n" + content)
     except IOError:

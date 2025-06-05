@@ -1,7 +1,7 @@
 # user_manager.py
 
-from utils import safe_load_json, safe_save_json, USER_FILE
-from models import User
+from data.utils import safe_load_json, safe_save_json, USER_FILE
+from models.models import User
 
 
 def load_all_users():

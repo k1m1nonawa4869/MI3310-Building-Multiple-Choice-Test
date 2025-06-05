@@ -1,7 +1,7 @@
 # question_manager.py
 
-from utils import safe_load_json, safe_save_json, QUESTION_FILE
-from models import Question
+from data.utils import safe_load_json, safe_save_json, QUESTION_FILE
+from models.models import Question
 
 
 def load_all_questions():

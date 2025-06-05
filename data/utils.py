@@ -4,12 +4,14 @@ import json
 import os
 
 
-# File paths (adjust if you want a separate folder)
-USER_FILE = "User.json"
-QUESTION_FILE = "questions.json"
-EXAM_FILE = "exam.json"
-ANSWER_FILE = "answers.json"
+# BASE_DIR is now the folder where this file lives (i.e., "<project_root>/data")
+BASE_DIR = os.path.dirname(__file__)
 
+# Point directly at each JSON file inside data/
+USER_FILE     = os.path.join(BASE_DIR, "User.json")
+QUESTION_FILE = os.path.join(BASE_DIR, "questions.json")
+EXAM_FILE     = os.path.join(BASE_DIR, "exam.json")
+ANSWER_FILE   = os.path.join(BASE_DIR, "answers.json")
 
 def safe_load_json(path):
     """
