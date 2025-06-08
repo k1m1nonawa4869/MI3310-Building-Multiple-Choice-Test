@@ -132,5 +132,17 @@
       "B",
       "A"
     ]
+  },
+  {
+    "ID": "5",
+    "file": "c:\\Users\\thisis4nges\\Documents\\GitHub\\MI3310-Multiple-Test-Managing\\data\\test\\5.txt",
+    "rightanswer": [
+      "C",
+      "B",
+      "D",
+      "A",
+      "A",
+      "A"
+    ]
   }
 ]

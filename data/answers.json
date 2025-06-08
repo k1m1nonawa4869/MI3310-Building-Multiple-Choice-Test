@@ -1179,5 +1179,85 @@
       "C"
     ],
     "score": 2.75
+  },
+  {
+    "ID": "5",
+    "username": "c",
+    "answer": [
+      "B",
+      "A",
+      "D",
+      "C",
+      "A",
+      "B"
+    ],
+    "score": 3.33
+  },
+  {
+    "ID": "5",
+    "username": "a",
+    "answer": [
+      "A",
+      null,
+      null,
+      null,
+      null,
+      null
+    ],
+    "score": null
+  },
+  {
+    "ID": "1",
+    "username": "a",
+    "answer": [
+      "A",
+      null,
+      "B",
+      null,
+      null,
+      "C",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "D",
+      null
+    ],
+    "score": null
+  },
+  {
+    "ID": "1",
+    "username": "a",
+    "answer": [
+      "A",
+      null,
+      "B",
+      null,
+      null,
+      "C",
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      "C",
+      null,
+      null,
+      "D",
+      null
+    ],
+    "score": null
   }
 ]

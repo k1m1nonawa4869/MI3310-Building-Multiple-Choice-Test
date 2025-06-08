@@ -31,7 +31,8 @@ def save_all_answers(ans_list):
 
 def create_exam():
     """
-    Admin function: prompt for an exam ID. If that ID already exists in exam.json, ask the admin whether to overwrite or choose a different ID. Once a unique (or confirmed-overwrite) ID is chosen, randomly select questions by difficulty, write data/<exam_id>.txt, and update exam.json accordingly.
+    Admin function: prompt for an exam ID. If that ID already exists in exam.json, ask the admin whether to overwrite or choose a different ID.
+    Once a unique (or confirmed-overwrite) ID is chosen, randomly select questions by difficulty, write data/<exam_id>.txt, and update exam.json accordingly.
     """
     # Load existing exams
     exams = load_all_exams()
@@ -65,7 +66,8 @@ def create_exam():
             # ID does not exist—OK to proceed
             break
 
-    # At this point, 'exam_id' is either a brand‐new ID, or an existing one that the admin explicitly chose to overwrite. 'exams' list no longer contains any entry for that ID.
+    # At this point, 'exam_id' is either a brand‐new ID, or an existing one that the admin explicitly chose to overwrite. 
+    # 'exams' list no longer contains any entry for that ID.
 
     # Load questions by level
     from controllers.question_manager import get_questions_by_level
