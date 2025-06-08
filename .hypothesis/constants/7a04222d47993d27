@@ -1,0 +1,4 @@
+# file: C:\Users\thisis4nges\Documents\GitHub\MI3310-Multiple-Test-Managing\models\models.py
+# hypothesis_version: 6.135.2
+
+['BIẾT', 'HIỂU', 'ID', 'VẬN DỤNG CAO', 'VẬN DỤNG THẤP', 'admin', 'answer', 'level', 'name', 'password', 'question', 'rightanswer', 'username', 'verified']
